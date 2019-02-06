@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../atom/satellite.dart';
 
 class Orbital extends StatelessWidget {
   final int x;
@@ -9,16 +10,22 @@ class Orbital extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: radius,
-      height: radius,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(radius),
-        border: Border.all(
-          color: _generateColor(),
-          width: 2.0
-        )
-      ),
+    return Stack(
+      children: <Widget>[
+        Container(
+          width: radius,
+          height: radius,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(radius),
+            border: Border.all(
+              color: _generateColor(),
+              width: 2.0
+            )
+          ),
+        ),
+
+        Satellite(0, 1, radius),
+      ]
     );
   }
 
