@@ -1,30 +1,20 @@
 import 'package:flutter/material.dart';
 import '../atom/satellite.dart';
+import '../atom/path.dart';
 
 class Orbital extends StatelessWidget {
   final int x;
   final int y;
-  final double radius;
+  final double diameter;
 
-  Orbital(this.x, this.y, {this.radius : 44});
+  Orbital(this.x, this.y, {this.diameter : 44});
 
   @override
   Widget build(BuildContext context) {
     return Stack(
       children: <Widget>[
-        Container(
-          width: radius,
-          height: radius,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(radius),
-            border: Border.all(
-              color: _generateColor(),
-              width: 2.0
-            )
-          ),
-        ),
-
-        Satellite(x, y, radius),
+        LissajousPath(x, y, _generateColor(), diameter: diameter,),
+        Satellite(x, y, diameter),
       ]
     );
   }
