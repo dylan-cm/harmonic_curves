@@ -21,14 +21,16 @@ class _SatelliteState extends State<Satellite> with TickerProviderStateMixin{
 
   @override
   void initState() {
-    // if(widget.x==0) {y=widget.y+1; x=y; radius = widget.radius+2;}
-    // else if (widget.y==0) {x=widget.x+1; y=x; radius = widget.radius+2;}
+    if(widget.x==0 && widget.y==0){x=y=1; radius = 0;}
+    else if(widget.x==0) {x=y=widget.y; radius = widget.radius+2;}
+    else if (widget.y==0) {x=y=widget.x; radius = widget.radius+2;}
+    else {x=widget.x; y=widget.y; radius = widget.radius;}
 
-    if(widget.x==0 || widget.y==0){x=y=1; radius = widget.radius+2;}
+    
 
     dxController = AnimationController(
       vsync: this,
-      duration: Duration(milliseconds: (10000/10).round())
+      duration: Duration(milliseconds: (10000/x).round())
     );
     
     dx = Tween(begin: 0.0, end: 2.0*math.pi).animate(
@@ -40,7 +42,7 @@ class _SatelliteState extends State<Satellite> with TickerProviderStateMixin{
 
     dyController = AnimationController(
       vsync: this,
-      duration: Duration(milliseconds: (10000/10).round())
+      duration: Duration(milliseconds: (10000/y).round())
     );
     
     dy = Tween(begin: 0.0, end: 2.0*math.pi).animate(
@@ -65,11 +67,11 @@ class _SatelliteState extends State<Satellite> with TickerProviderStateMixin{
         height: widget.orbital,
         alignment: Alignment(math.cos(dx.value), math.sin(dy.value)),
         child: Container(
-          width: widget.radius,
-          height: widget.radius,
+          width: radius,
+          height: radius,
           decoration: BoxDecoration(
             color: Colors.white,
-            borderRadius: BorderRadius.circular(widget.radius)
+            borderRadius: BorderRadius.circular(radius)
           ),
         ),
       ),

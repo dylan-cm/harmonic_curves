@@ -24,7 +24,7 @@ class Orbital extends StatelessWidget {
           ),
         ),
 
-        Satellite(0, 1, radius),
+        Satellite(x, y, radius),
       ]
     );
   }
