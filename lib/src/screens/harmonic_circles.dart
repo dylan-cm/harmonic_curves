@@ -43,10 +43,4 @@ class _HarmonicCirclesState extends State<HarmonicCircles>
       ),
     );
   }
-
-  // @override
-  // void dispose() {
-  //   this.
-  //   super.dispose();
-  // }
 }

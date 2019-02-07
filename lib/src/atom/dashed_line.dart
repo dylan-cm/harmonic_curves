@@ -55,8 +55,8 @@ class _DashedLineState extends State<DashedLine>
           height: widget.isVertical? MediaQuery.of(context).size.width : widget.constraint,
           width: widget.isVertical? widget.constraint : MediaQuery.of(context).size.height,
           alignment: Alignment( 
-            widget.isVertical? math.cos(lineAnimation.value) : -1.0,
-            widget.isVertical? -1.0 : math.sin(lineAnimation.value),
+            widget.isVertical? math.sin(lineAnimation.value) : -1.0,
+            widget.isVertical? -1.0 : math.cos(lineAnimation.value),
           ),
           child: child
         );
@@ -72,6 +72,12 @@ class _DashedLineState extends State<DashedLine>
       lineController.repeat();
     });
     super.didUpdateWidget(oldWidget);
+  }
+
+  @override
+  void dispose() { 
+    lineController.dispose();
+    super.dispose();
   }
 }
 class DashedLinePainter extends CustomPainter{

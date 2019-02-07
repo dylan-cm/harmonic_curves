@@ -98,4 +98,11 @@ class _SatelliteState extends State<Satellite> with TickerProviderStateMixin{
     });
     super.didUpdateWidget(oldWidget);
   }
+
+  @override
+  void dispose() {
+    dxController.dispose();
+    dyController.dispose();
+    super.dispose();
+  }
 }
