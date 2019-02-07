@@ -11,7 +11,24 @@ class Orbital extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
+    if(x==0 || y==0 || x==y) return Stack(
+      children: <Widget>[
+        Container(
+          width: diameter,
+          height: diameter,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(diameter),
+            border: Border.all(
+              color: _generateColor(),
+              width: 2.0
+            )
+          ),
+        ),
+        Satellite(x, y, diameter),
+      ]
+    );
+  
+    else return Stack(
       children: <Widget>[
         LissajousPath(x, y, _generateColor(), diameter: diameter,),
         Satellite(x, y, diameter),

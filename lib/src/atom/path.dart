@@ -1,5 +1,58 @@
 import 'package:flutter/material.dart';
 import 'dart:math' as math;
+import 'dart:ui';
+
+// class LissajousPath extends StatelessWidget {
+//   final int x;
+//   final int y;
+//   final double diameter;
+//   final Color color;
+//   final double weight;
+
+//   LissajousPath(this.x, this.y, this.color, {this.diameter : 44, this.weight: 2.0});
+
+//   @override
+//   Widget build(BuildContext context) {
+//     double radius = diameter/2;
+
+//     return CustomPaint(
+//         painter: PathPainter(
+//           color: color, 
+//           weight: weight,
+//           radius: radius,
+//           x: x,
+//           y: y,
+//         ),
+//         size: Size(radius, radius),
+//       );
+//   }
+// }
+
+// class PathPainter extends CustomPainter{
+//   Color color;
+//   double weight;
+//   double radius;
+//   int x, y;
+
+//   PathPainter({this.color, this.weight, this.radius , this.x, this.y});
+
+//   @override
+//   void paint(Canvas canvas, Size size){
+//     double time = 0;
+//     canvas.drawPoints(pointMode, points, paint)
+
+//     for(var i = 0; i < 10; i++) {
+//       time += 0.0015;
+//       var dx = (44) * math.sin(x * time) + radius;
+//       var dy = (44) * math.cos(y * time) + radius;
+//       ctx.arc( dx, dy, weight, 0, math.pi * 2, true );
+//     }
+//   }
+
+//   @override
+//   bool shouldRepaint(PathPainter oldDelegate) => false;
+// }
+
 
 class LissajousPath extends StatefulWidget {
   final int x;
@@ -24,8 +77,24 @@ class _LissajousPathState extends State<LissajousPath> with TickerProviderStateM
 
   Path path = new Path();
 
+  // List<CustomPaint> rendered = [CustomPaint()];
+
   @override
   void initState() {
+    // for(int i; i <= x; i++){
+    //   rendered.add(
+    //     CustomPaint(
+    //       painter: PathPainter(
+    //         color: widget.color, 
+    //         weight: widget.weight, 
+    //         points: [],
+    //       ),
+    //       size: Size(radius, radius),
+    //     )
+    //   );
+    // }
+
+
     if(widget.x==0 && widget.y==0){x=y=1; radius = 0;}
     else if(widget.x==0) {x=y=widget.y;}
     else if (widget.y==0) {x=y=widget.x;}
@@ -79,10 +148,26 @@ class _LissajousPathState extends State<LissajousPath> with TickerProviderStateM
   @override
   Widget build(BuildContext context) {
     return AnimatedBuilder(
-      animation: dx,
+      animation: cycle,
       builder: (context, child){
+        // if(_points.length > 10){
+        //   rendered.add(
+        //     CustomPaint(
+        //       painter: PathPainter(
+        //         color: widget.color, 
+        //         weight: widget.weight, 
+        //         points: List<Offset>.from(_points),
+        //       ),
+        //       size: Size(radius, radius),
+        //     )
+        //   );
+        //   _points.clear();
+        // }
+
+
         if (cycleController.status==AnimationStatus.completed){
           _points.clear();
+          // rendered = [CustomPaint()];
           cycleController.reset();
           cycleController.forward();
         }
@@ -94,14 +179,22 @@ class _LissajousPathState extends State<LissajousPath> with TickerProviderStateM
           ) );
         // }
 
-        return CustomPaint(
-          painter: PathPainter(
-            color: widget.color, 
-            weight: widget.weight, 
-            points: _points,
-          ),
-          size: Size(radius, radius),
-        );
+        // rendered[0] = 
+        return
+        CustomPaint(
+              painter: PathPainter(
+                color: widget.color, 
+                weight: widget.weight, 
+                points: _points,
+              ),
+              size: Size(radius, radius),
+            );
+        // print(rendered.length);
+
+        // return Stack(
+        //   children: rendered,
+        // );
+        
       
       }
     );
@@ -122,9 +215,11 @@ class PathPainter extends CustomPainter {
       ..strokeCap = StrokeCap.round
       ..strokeWidth = weight;
 
-    for (int i = 0; i < points.length - 1; i++) {
-      canvas.drawLine(points[i], points[i + 1], paint);
-    }
+    // for (int i = 0; i < points.length - 1; i++) {
+    //   canvas.drawLine(points[i], points[i + 1], paint);
+    // }
+
+    canvas.drawPoints(PointMode.points, points, paint);
 
     // canvas.drawCircle(Offset(0,0), 2.5, Paint()..color=Colors.white..style=PaintingStyle.fill..strokeWidth=0);
   }

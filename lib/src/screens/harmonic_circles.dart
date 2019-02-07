@@ -32,6 +32,7 @@ class _HarmonicCirclesState extends State<HarmonicCircles> {
     return Center(
       child: Container(
         constraints: BoxConstraints(maxHeight: size.width, maxWidth: size.width),
+        // child: Orbital(6, 11, diameter: 200,),
         child: Column(
           children: rows,
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
