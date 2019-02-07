@@ -84,7 +84,6 @@ class _LissajousPathState extends State<LissajousPath> with TickerProviderStateM
           cycleController.forward();
         }
         
-        // if((cycle.value*100).round()%2==1)
          _points.add( Offset( 
           math.sin(dx.value)*radius+radius, 
           math.cos(dy.value)*radius+radius,
