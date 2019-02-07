@@ -3,8 +3,8 @@ import '../atom/satellite.dart';
 import '../atom/path.dart';
 
 class Orbital extends StatelessWidget {
-  final int x;
-  final int y;
+  final double x;
+  final double y;
   final double diameter;
 
   Orbital(this.x, this.y, {this.diameter : 44});
@@ -19,7 +19,7 @@ class Orbital extends StatelessWidget {
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(diameter),
             border: Border.all(
-              color: _generateColor(),
+              color: generateColor(),
               width: 2.0
             )
           ),
@@ -27,16 +27,16 @@ class Orbital extends StatelessWidget {
         Satellite(x, y, diameter),
       ]
     );
-  
+    
     else return Stack(
       children: <Widget>[
-        LissajousPath(x, y, _generateColor(), diameter: diameter,),
+        LissajousPath(x.toDouble(), y.toDouble(), generateColor(), diameter: diameter,),
         Satellite(x, y, diameter),
       ]
     );
   }
 
-  Color _generateColor(){
+  Color generateColor(){
     double hue = (x+y-2)/2 * 360/7;
     if(x==0 && y==0) return HSVColor.fromAHSV(0,0,0,0).toColor();
     else if(x==0) hue = (y-1) * 360/7;
@@ -44,9 +44,11 @@ class Orbital extends StatelessWidget {
     else {
       if ((x-y).abs()>4) {
         hue +=180;
-        if (hue>=360) hue-=360;
+        // if (hue>=360) hue-=360;
+        
       }
     }
+    hue = hue%360;
     return HSLColor.fromAHSL(1, hue, 0.60, 0.75).toColor();
   }
 }

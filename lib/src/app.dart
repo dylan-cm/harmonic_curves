@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'screens/harmonic_circles.dart';
+import 'screens/build_your_own_lissajous.dart';
 
 class App extends StatelessWidget {
   @override
@@ -8,7 +9,7 @@ class App extends StatelessWidget {
       theme: ThemeData.dark(),
       home: Scaffold(
         backgroundColor: Colors.grey[900],
-        body: HarmonicCircles(),
+        body: BuildYourOwnLissajous(),
       )
     );
   }

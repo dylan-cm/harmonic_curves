@@ -3,8 +3,8 @@ import 'dart:math' as math;
 import 'dart:ui';
 
 class LissajousPath extends StatelessWidget {
-  final int x;
-  final int y;
+  final double x;
+  final double y;
   final double diameter;
   final Color color;
   final double weight;
@@ -14,7 +14,6 @@ class LissajousPath extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double radius = diameter/2;
-    print('$x , $y');
     return Container(
       width: diameter,
       height: diameter,
@@ -37,7 +36,7 @@ class PathPainter extends CustomPainter{
   Color color;
   double weight;
   double radius;
-  int x, y;
+  double x, y;
 
   PathPainter({this.color, this.weight, this.radius , this.x, this.y});
 
@@ -54,7 +53,7 @@ class PathPainter extends CustomPainter{
     // path.lineTo(44, 22);
     // path.
 
-    for(var i = 0; i < 10000; i++) {
+    for(var i = 0; i < 15000; i++) {
       time += 0.0015;
       var dx = (radius) * math.cos(x * time) - radius;
       var dy = (radius) * math.sin(y * time) + 0;
@@ -70,8 +69,8 @@ class PathPainter extends CustomPainter{
 
 
 // class LissajousPath extends StatefulWidget {
-//   final int x;
-//   final int y;
+//   final double x;
+//   final double y;
 //   final double diameter;
 //   final Color color;
 //   final double weight;
@@ -85,7 +84,7 @@ class PathPainter extends CustomPainter{
 //   Animation<double> dx, dy, cycle;
 //   AnimationController dxController, dyController, cycleController;
 
-//   int x, y;
+//   double x, y;
 //   double radius;
 
 //   List<Offset> _points = <Offset>[];
@@ -189,8 +188,8 @@ class PathPainter extends CustomPainter{
         
 //         // if(dx.value.round()%4 <= 3) { //Optimize performance
 //           _points.add( Offset( 
-//             math.cos(dx.value)*radius+22, 
-//             math.sin(dy.value)*radius+22,
+//             math.cos(dx.value)*radius+radius, 
+//             math.sin(dy.value)*radius+radius,
 //           ) );
 //         // }
 
@@ -214,6 +213,34 @@ class PathPainter extends CustomPainter{
 //       }
 //     );
 //   }
+
+//   @override
+//   void dispose() {
+//     dxController.dispose();
+//     dyController.dispose();
+//     cycleController.dispose();
+//     super.dispose();
+//   }
+
+//   @override
+//   void didUpdateWidget(LissajousPath oldWidget) {
+//     setState(() {
+//       if(widget.x==0 && widget.y==0){x=y=1; radius = 0;}
+//       else if(widget.x==0) {x=y=widget.y;}
+//       else if (widget.y==0) {x=y=widget.x;}
+//       else {x=widget.x; y=widget.y;}
+
+//       radius = widget.diameter/2;
+      
+//       dxController.duration=Duration(milliseconds: (10000/x).round());
+//       dyController.duration=Duration(milliseconds: (10000/y).round());
+//       // dxController.fling();
+//       dxController.forward();
+//       // dyController.fling();
+//       dyController.forward();
+//     });
+//     super.didUpdateWidget(oldWidget);
+//   }
 // }
 
 // class PathPainter extends CustomPainter {
@@ -234,7 +261,7 @@ class PathPainter extends CustomPainter{
 //     //   canvas.drawLine(points[i], points[i + 1], paint);
 //     // }
 
-//     canvas.drawPoints(PointMode.points, points, paint);
+//     canvas.drawPoints(PointMode.polygon, points, paint);
 
 //     // canvas.drawCircle(Offset(0,0), 2.5, Paint()..color=Colors.white..style=PaintingStyle.fill..strokeWidth=0);
 //   }

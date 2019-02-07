@@ -13,7 +13,7 @@ class _HarmonicCirclesState extends State<HarmonicCircles> {
     for(var x=0; x <= 7; x++){
       List<Orbital> curves = [];
       for(var y=0; y <= 7; y++){
-        curves.add(Orbital(x, y));
+        curves.add(Orbital(x.toDouble(), y.toDouble()));
       }
       rows.add(
         Row(
@@ -39,34 +39,5 @@ class _HarmonicCirclesState extends State<HarmonicCircles> {
         ),
       ),
     );
-
-
-
-
-
-    // return Column(
-    //   // color: Colors.yellow,
-    //   // width: size.width,
-    //   // height: size.height,
-    //   crossAxisAlignment: CrossAxisAlignment.center,
-    //   mainAxisSize: MainAxisSize.min,
-    //   children: [GridView.builder(
-    //     physics: NeverScrollableScrollPhysics(),
-    //     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-    //       crossAxisCount: 7,
-    //       mainAxisSpacing: 4.0,
-    //       crossAxisSpacing: 4.0,
-    //     ),
-    //     padding: EdgeInsets.all(16.0),
-    //     itemCount: 49,
-    //     itemBuilder: (context, index){
-    //       return Container(
-    //         color: Colors.grey,
-    //         width: 50,
-    //         height: 50,
-    //       );
-    //     },
-    //   ),]
-    // );
   }
 }
