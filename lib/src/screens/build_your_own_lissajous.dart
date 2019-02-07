@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import '../molecules/orbital.dart';
 import '../atom/dashed_line.dart';
+import '../atom/lissajous_inanimate.dart';
+import '../atom/satellite.dart';
 
 class BuildYourOwnLissajous extends StatefulWidget {
   _BuildYourOwnLissajousState createState() => _BuildYourOwnLissajousState();
@@ -9,6 +11,7 @@ class BuildYourOwnLissajous extends StatefulWidget {
 class _BuildYourOwnLissajousState extends State<BuildYourOwnLissajous> 
   with TickerProviderStateMixin{
   double x, y, diameter;
+  LissajousPath curve;
 
   @override
   void initState() {
@@ -47,7 +50,7 @@ class _BuildYourOwnLissajousState extends State<BuildYourOwnLissajous>
           Positioned(
             right: 16,
             bottom: 200,
-            child: Orbital(x, y, ticker: this, diameter: diameter),
+            child: _buildDisplay(),
           ),
         ]
       ) 
@@ -72,4 +75,20 @@ class _BuildYourOwnLissajousState extends State<BuildYourOwnLissajous>
       ],
     );
   }
+  Widget _buildDisplay(){
+    setState(() {
+      curve = LissajousPath(
+          x, 
+          y, 
+          Orbital(x, y).generateColor(), 
+          diameter: diameter,);
+    });
+    return Stack(
+      children: <Widget>[
+        curve,
+        Satellite(x, y, diameter, ticker: this),
+      ]
+    );
+  }
 }
+

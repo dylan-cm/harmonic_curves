@@ -15,7 +15,6 @@ class LissajousPath extends StatelessWidget {
       width: diameter,
       height: diameter,
       alignment: Alignment(3, 1),
-      child: RepaintBoundary(
         child: CustomPaint(
           painter: PathPainter(
             color: color, 
@@ -26,7 +25,6 @@ class LissajousPath extends StatelessWidget {
           ),
           size: Size(radius, radius),
         )
-      )
     );
   }
 }
@@ -54,7 +52,6 @@ class PathPainter extends CustomPainter{
       var dy = (radius) * math.sin(y * time) + 0;
       path.lineTo( dx, dy );
     }
-    print('$x , $y painted');
     canvas.drawPath(path, paint);
   }
 

@@ -29,7 +29,7 @@ class Orbital extends StatelessWidget {
     
     else return Stack(
       children: <Widget>[
-        LissajousPath(y.toDouble(), x.toDouble(), generateColor(), diameter: diameter,),
+        LissajousPath(y, x, generateColor(), diameter: diameter,),
         Satellite(y, x, diameter, ticker: ticker),
       ]
     );
