@@ -1,19 +1,20 @@
 import 'package:flutter/material.dart';
 import '../molecules/orbital.dart';
+import '../atom/dashed_line.dart';
 
 class BuildYourOwnLissajous extends StatefulWidget {
   _BuildYourOwnLissajousState createState() => _BuildYourOwnLissajousState();
 }
 
-class _BuildYourOwnLissajousState extends State<BuildYourOwnLissajous> {
+class _BuildYourOwnLissajousState extends State<BuildYourOwnLissajous> 
+  with TickerProviderStateMixin{
   double x, y, diameter;
-  Orbital xOrb;
 
   @override
   void initState() {
     x=y=1;
     diameter = 180;
-    xOrb = Orbital(x, 0, diameter: diameter,);
+
     super.initState();
   }
 
@@ -23,61 +24,51 @@ class _BuildYourOwnLissajousState extends State<BuildYourOwnLissajous> {
       width: MediaQuery.of(context).size.width,
       height: MediaQuery.of(context).size.height,
       alignment: Alignment(0, 0),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
+      child: Stack(
         children: [ 
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: <Widget>[
-            SizedBox(height: diameter, width: diameter,),
-            Column(children: <Widget>[
-              Container(
-            width: diameter,
-            child: Slider(
-              inactiveColor: Colors.grey[800],
-              activeColor: Orbital(x, 0).generateColor(),
-              min: 1.0,
-              max: 20,
-              value: x,
-              onChanged: (value) => setState(()=>x=value),
-            )
+          Positioned(
+            bottom: 201,
+            child: DashedLine(y, false, diameter),
           ),
-          Orbital(x, 0, diameter: diameter,),
-            ],)
-          ],),
-          
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.end,
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: <Widget>[
-              // Container(width: 10,height: 0, color: Colors.red,),
-              Column(
-                children: <Widget>[
-                  Container(
-                    width: diameter,
-                    child: Slider( //TODO: make vertical slider package
-                      inactiveColor: Colors.grey[800],
-                      activeColor: Orbital(y, 0).generateColor(),
-                      min: 1.0,
-                      max: 20,
-                      value: y,
-                      onChanged: (value) => setState(()=>y=value),
-                    )
-                  ),
-                  Container(width: 10,),
-                  Orbital(0, y, diameter: diameter,),
-                  Container(width: 10,),
-                ],
-              ),
-              Orbital(x, y, diameter: diameter,),
-            ],
+          Positioned(
+            right: 17,
+            child: DashedLine(x, true, diameter),
           ),
-          
-         
-          
+          Positioned(
+            right: 16,
+            top: 200,
+            child: _buildSelector(x, true),
+          ),
+          Positioned(
+            left: 16,
+            bottom: 200,
+            child: _buildSelector(y, false),
+          ),
+          Positioned(
+            right: 16,
+            bottom: 200,
+            child: Orbital(x, y, diameter: diameter,),
+          ),
         ]
+      ) 
+    );
+  }
+
+  Widget _buildSelector(double axis, bool isXAxis){
+    return Column(children: <Widget>[
+    Container(
+      width: diameter,
+      child: Slider(
+        inactiveColor: Colors.grey[800],
+        activeColor: Orbital(axis, 0).generateColor(),
+        min: 1.0,
+        max: 20,
+        value: axis,
+        onChanged: (value) => setState(()=> isXAxis ? x=value : y=value),
       )
+    ),
+    Orbital(isXAxis ? axis : 0, isXAxis ? 0 : axis, diameter: diameter,),
+      ],
     );
   }
 }

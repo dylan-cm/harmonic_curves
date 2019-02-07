@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../atom/satellite.dart';
-import '../atom/path.dart';
+import '../atom/lissajous_inanimate.dart';
 
 class Orbital extends StatelessWidget {
   final double x;

@@ -1,8 +1,82 @@
 import 'package:flutter/material.dart';
 import 'dart:ui';
+import 'dart:math' as math;
 
-class DashedLine extends CustomPainter{
+class DashedLine extends StatefulWidget {
+  final double value, constraint;
+  final bool isVertical;
+
+  DashedLine(this.value, this.isVertical, this.constraint);
+
+  _DashedLineState createState() => _DashedLineState();
+}
+
+class _DashedLineState extends State<DashedLine> 
+  with TickerProviderStateMixin{
+  Animation lineAnimation;
+  AnimationController lineController;
+
+  List<Offset> points =[];
+
+  @override
+  void initState() {
+    for(var i=0; i<100; i++){
+      if(!widget.isVertical)points.add( Offset(i*10.0, 0) );
+      else points.add( Offset(0, i*10.0) );
+    }
+
+    lineController = AnimationController(
+      vsync: this,
+      duration: Duration(milliseconds: (10000/widget.value).round())
+    );
+    
+    lineAnimation = Tween(begin: 0, end: 2*math.pi).animate(
+      CurvedAnimation(
+        parent: lineController,
+        curve: Curves.linear,
+      )
+    );
+
+    lineController.repeat();
+
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return AnimatedBuilder(
+      animation: lineAnimation,
+      child: CustomPaint(
+        painter: DashedLinePainter(points),
+      ),
+      builder: (context, child){
+        return Container(
+          height: widget.isVertical? MediaQuery.of(context).size.width : widget.constraint-2,
+          width: widget.isVertical? widget.constraint-2 : MediaQuery.of(context).size.height,
+          alignment: Alignment( 
+            widget.isVertical? math.cos(lineAnimation.value) : -1.0,
+            widget.isVertical? -1.0 : math.sin(lineAnimation.value),
+          ),
+          child: child
+        );
+      },
+    );
+  }
+
+  @override
+  void didUpdateWidget(DashedLine oldWidget) {
+    setState(() {
+      lineController.duration=Duration(milliseconds: (10000/widget.value).round());
+      lineController.reset();
+      lineController.repeat();
+    });
+    super.didUpdateWidget(oldWidget);
+  }
+}
+class DashedLinePainter extends CustomPainter{
   List<Offset> points;
+
+  DashedLinePainter(this.points);
 
   @override
   void paint(Canvas canvas, Size size){

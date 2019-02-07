@@ -20,15 +20,8 @@ class _SatelliteState extends State<Satellite> with TickerProviderStateMixin{
   double x, y;
   double radius;
 
-  List<Offset> dashes =[];
-
   @override
   void initState() {
-    if(x==0||y==0)for(var i=0; i<100; i++){
-      if(x==0)dashes.add( Offset(i*10.0, 0) );
-      else dashes.add( Offset(0, i*10.0) );
-    }
-
     if(widget.x==0 && widget.y==0){x=y=1; radius = 0;}
     else if(widget.x==0) {x=y=widget.y; radius = widget.radius+2;}
     else if (widget.y==0) {x=y=widget.x; radius = widget.radius+2;}
