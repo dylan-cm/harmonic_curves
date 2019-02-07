@@ -70,7 +70,10 @@ class _SatelliteState extends State<Satellite> with TickerProviderStateMixin{
         return Container(
           width: widget.orbital,
           height: widget.orbital,
-          alignment: Alignment(math.cos(dx.value), math.sin(dy.value)),
+          alignment: Alignment(
+            math.sin(dx.value), 
+            math.cos(dy.value)
+          ),
           child: child,
         );
       }

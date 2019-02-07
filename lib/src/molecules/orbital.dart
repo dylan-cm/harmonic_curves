@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../atom/satellite.dart';
-import '../atom/lissajous_inanimate.dart';
+import '../atom/lissajous_animated.dart';
 
 class Orbital extends StatelessWidget {
   final double x, y, diameter;
@@ -23,14 +23,14 @@ class Orbital extends StatelessWidget {
             )
           ),
         ),
-        Satellite(x, y, diameter, ticker: ticker,),
+        Satellite(y, x, diameter, ticker: ticker,),
       ]
     );
     
     else return Stack(
       children: <Widget>[
-        LissajousPath(x.toDouble(), y.toDouble(), generateColor(), diameter: diameter,),
-        Satellite(x, y, diameter, ticker: ticker),
+        LissajousPath(y.toDouble(), x.toDouble(), generateColor(), diameter: diameter,),
+        Satellite(y, x, diameter, ticker: ticker),
       ]
     );
   }

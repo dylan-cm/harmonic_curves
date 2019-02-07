@@ -4,8 +4,9 @@ import 'package:flutter/services.dart';
 
 void main() {
   //Lock portrait orientation
-  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
-    .then((_) {
-      runApp(new App());
-    });
+  // SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
+  //   .then((_) {
+  //     runApp(new App());
+  //   });
+  runApp(App());
 }
