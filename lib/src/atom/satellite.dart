@@ -37,7 +37,7 @@ class _SatelliteState extends State<Satellite> with TickerProviderStateMixin{
     );
 
     dyController = AnimationController(
-      vsync: this,
+      vsync: widget.ticker,
       duration: Duration(milliseconds: (10000/y).round())
     );
     
@@ -59,9 +59,6 @@ class _SatelliteState extends State<Satellite> with TickerProviderStateMixin{
     return AnimatedBuilder(
       animation: dx,
       builder: (context, child){
-        if(dxController.status==AnimationStatus.completed) dxController.forward(from: 0);
-        if(dyController.status==AnimationStatus.completed) dyController.forward(from: 0);
-        
         return Container(
           width: widget.orbital,
           height: widget.orbital,
@@ -89,10 +86,11 @@ class _SatelliteState extends State<Satellite> with TickerProviderStateMixin{
       
       dxController.duration=Duration(milliseconds: (10000/x).round());
       dyController.duration=Duration(milliseconds: (10000/y).round());
+      //must be identical to dashed line or they will go out of sync
       dxController.reset();
-      dxController.forward();
+      dxController.repeat();
       dyController.reset();
-      dyController.forward();
+      dyController.repeat();
     });
     super.didUpdateWidget(oldWidget);
   }
