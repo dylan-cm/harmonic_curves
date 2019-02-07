@@ -9,7 +9,7 @@ class App extends StatelessWidget {
       theme: ThemeData.dark(),
       home: Scaffold(
         backgroundColor: Colors.grey[900],
-        body: BuildYourOwnLissajous(),
+        body: HarmonicCircles(),
       )
     );
   }

@@ -6,7 +6,7 @@ class Orbital extends StatelessWidget {
   final double x, y, diameter;
   final TickerProvider ticker;
 
-  Orbital(this.x, this.y, this.ticker, {this.diameter : 44});
+  Orbital(this.x, this.y, {this.ticker, this.diameter : 44});
 
   @override
   Widget build(BuildContext context) {
@@ -23,14 +23,14 @@ class Orbital extends StatelessWidget {
             )
           ),
         ),
-        Satellite(x, y, diameter, ticker),
+        Satellite(x, y, diameter, ticker: ticker,),
       ]
     );
     
     else return Stack(
       children: <Widget>[
         LissajousPath(x.toDouble(), y.toDouble(), generateColor(), diameter: diameter,),
-        Satellite(x, y, diameter, ticker),
+        Satellite(x, y, diameter, ticker: ticker),
       ]
     );
   }

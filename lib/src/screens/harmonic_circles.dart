@@ -14,7 +14,7 @@ class _HarmonicCirclesState extends State<HarmonicCircles>
     for(var x=0; x <= 7; x++){
       List<Orbital> curves = [];
       for(var y=0; y <= 7; y++){
-        curves.add(Orbital(x.toDouble(), y.toDouble(), this));
+        curves.add(Orbital(x.toDouble(), y.toDouble(), ticker: this));
       }
       rows.add(
         Row(
@@ -33,7 +33,6 @@ class _HarmonicCirclesState extends State<HarmonicCircles>
     return Center(
       child: Container(
         constraints: BoxConstraints(maxHeight: size.width, maxWidth: size.width),
-        // child: Orbital(6, 11, diameter: 200,),
         child: Column(
           children: rows,
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,

@@ -3,11 +3,8 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 
 class LissajousPath extends StatelessWidget {
-  final double x;
-  final double y;
-  final double diameter;
+  final double x, y, diameter, weight;
   final Color color;
-  final double weight;
 
   LissajousPath(this.x, this.y, this.color, {this.diameter : 44, this.weight: 2.0});
 
@@ -18,15 +15,17 @@ class LissajousPath extends StatelessWidget {
       width: diameter,
       height: diameter,
       alignment: Alignment(3, 1),
-      child: CustomPaint(
-        painter: PathPainter(
-          color: color, 
-          weight: weight,
-          radius: radius,
-          x: x,
-          y: y,
-        ),
-        size: Size(radius, radius),
+      child: RepaintBoundary(
+        child: CustomPaint(
+          painter: PathPainter(
+            color: color, 
+            weight: weight,
+            radius: radius,
+            x: x,
+            y: y,
+          ),
+          size: Size(radius, radius),
+        )
       )
     );
   }
@@ -34,9 +33,7 @@ class LissajousPath extends StatelessWidget {
 
 class PathPainter extends CustomPainter{
   Color color;
-  double weight;
-  double radius;
-  double x, y;
+  double weight, radius, x, y;
 
   PathPainter({this.color, this.weight, this.radius , this.x, this.y});
 
@@ -50,8 +47,6 @@ class PathPainter extends CustomPainter{
       ..style = PaintingStyle.stroke;
 
     Path path = Path();
-    // path.lineTo(44, 22);
-    // path.
 
     for(var i = 0; i < 15000; i++) {
       time += 0.0015;
@@ -59,10 +54,12 @@ class PathPainter extends CustomPainter{
       var dy = (radius) * math.sin(y * time) + 0;
       path.lineTo( dx, dy );
     }
-
+    print('$x , $y painted');
     canvas.drawPath(path, paint);
   }
 
   @override
   bool shouldRepaint(PathPainter oldDelegate) => false;
+  @override
+  bool shouldRebuildSemantics(CustomPainter oldDelegate) => false;
 }

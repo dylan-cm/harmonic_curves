@@ -47,7 +47,7 @@ class _BuildYourOwnLissajousState extends State<BuildYourOwnLissajous>
           Positioned(
             right: 16,
             bottom: 200,
-            child: Orbital(x, y, this, diameter: diameter),
+            child: Orbital(x, y, ticker: this, diameter: diameter),
           ),
         ]
       ) 
@@ -55,19 +55,20 @@ class _BuildYourOwnLissajousState extends State<BuildYourOwnLissajous>
   }
 
   Widget _buildSelector(double axis, bool isXAxis){
+    Orbital orb = Orbital(isXAxis ? axis : 0, isXAxis ? 0 : axis, ticker: this, diameter: diameter,);
     return Column(children: <Widget>[
     Container(
       width: diameter,
       child: Slider(
         inactiveColor: Colors.grey[800],
-        activeColor: Orbital(axis, 0, this).generateColor(),
+        activeColor: orb.generateColor(),
         min: 1.0,
         max: 20,
         value: axis,
         onChanged: (value) => setState(()=> isXAxis ? x=value : y=value),
       )
     ),
-    Orbital(isXAxis ? axis : 0, isXAxis ? 0 : axis, this, diameter: diameter,),
+    orb,
       ],
     );
   }

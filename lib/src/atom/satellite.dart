@@ -5,7 +5,7 @@ class Satellite extends StatefulWidget {
   final double x, y, radius, orbital;
   final TickerProvider ticker;
 
-  Satellite(this.x, this.y, this.orbital, this.ticker, {this.radius : 5});
+  Satellite(this.x, this.y, this.orbital, {this.ticker, this.radius : 5});
 
   _SatelliteState createState() => _SatelliteState();
 }
@@ -29,7 +29,7 @@ class _SatelliteState extends State<Satellite> with TickerProviderStateMixin{
       duration: Duration(milliseconds: (10000/x).round())
     );
     
-    dx = Tween(begin: 0.0, end: 2.0*math.pi*x).animate(
+    dx = Tween(begin: 0.0, end: 2.0*math.pi).animate(
       CurvedAnimation(
         parent: dxController,
         curve: Curves.linear,
@@ -41,7 +41,7 @@ class _SatelliteState extends State<Satellite> with TickerProviderStateMixin{
       duration: Duration(milliseconds: (10000/y).round())
     );
     
-    dy = Tween(begin: 0.0, end: 2.0*math.pi*y).animate(
+    dy = Tween(begin: 0.0, end: 2.0*math.pi).animate(
       CurvedAnimation(
         parent: dyController,
         curve: Curves.linear,
@@ -58,19 +58,20 @@ class _SatelliteState extends State<Satellite> with TickerProviderStateMixin{
   Widget build(BuildContext context) {
     return AnimatedBuilder(
       animation: dx,
+      child: Container(
+        width: radius,
+        height: radius,
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(radius)
+        ),
+      ),
       builder: (context, child){
         return Container(
           width: widget.orbital,
           height: widget.orbital,
           alignment: Alignment(math.cos(dx.value), math.sin(dy.value)),
-          child: Container(
-            width: radius,
-            height: radius,
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(radius)
-            ),
-          ),
+          child: child,
         );
       }
     );
