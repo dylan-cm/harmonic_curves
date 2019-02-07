@@ -3,11 +3,10 @@ import '../atom/satellite.dart';
 import '../atom/lissajous_inanimate.dart';
 
 class Orbital extends StatelessWidget {
-  final double x;
-  final double y;
-  final double diameter;
+  final double x, y, diameter;
+  final TickerProvider ticker;
 
-  Orbital(this.x, this.y, {this.diameter : 44});
+  Orbital(this.x, this.y, this.ticker, {this.diameter : 44});
 
   @override
   Widget build(BuildContext context) {
@@ -24,14 +23,14 @@ class Orbital extends StatelessWidget {
             )
           ),
         ),
-        Satellite(x, y, diameter),
+        Satellite(x, y, diameter, ticker),
       ]
     );
     
     else return Stack(
       children: <Widget>[
         LissajousPath(x.toDouble(), y.toDouble(), generateColor(), diameter: diameter,),
-        Satellite(x, y, diameter),
+        Satellite(x, y, diameter, ticker),
       ]
     );
   }

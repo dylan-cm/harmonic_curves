@@ -1,14 +1,11 @@
 import 'package:flutter/material.dart';
 import 'dart:math' as math;
-import 'dart:ui';
 
 class Satellite extends StatefulWidget {
-  final double x;
-  final double y;
-  final double radius;
-  final double orbital;
+  final double x, y, radius, orbital;
+  final TickerProvider ticker;
 
-  Satellite(this.x, this.y, this.orbital, {this.radius : 5});
+  Satellite(this.x, this.y, this.orbital, this.ticker, {this.radius : 5});
 
   _SatelliteState createState() => _SatelliteState();
 }
@@ -28,7 +25,7 @@ class _SatelliteState extends State<Satellite> with TickerProviderStateMixin{
     else {x=widget.x; y=widget.y; radius = widget.radius;}
 
     dxController = AnimationController(
-      vsync: this,
+      vsync: widget.ticker,
       duration: Duration(milliseconds: (10000/x).round())
     );
     

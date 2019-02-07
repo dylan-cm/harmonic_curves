@@ -5,7 +5,8 @@ class HarmonicCircles extends StatefulWidget {
   _HarmonicCirclesState createState() => _HarmonicCirclesState();
 }
 
-class _HarmonicCirclesState extends State<HarmonicCircles> {
+class _HarmonicCirclesState extends State<HarmonicCircles> 
+  with TickerProviderStateMixin{
   List<Row> rows = [];
 
   @override
@@ -13,7 +14,7 @@ class _HarmonicCirclesState extends State<HarmonicCircles> {
     for(var x=0; x <= 7; x++){
       List<Orbital> curves = [];
       for(var y=0; y <= 7; y++){
-        curves.add(Orbital(x.toDouble(), y.toDouble()));
+        curves.add(Orbital(x.toDouble(), y.toDouble(), this));
       }
       rows.add(
         Row(

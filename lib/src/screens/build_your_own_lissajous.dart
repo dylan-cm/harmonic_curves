@@ -28,11 +28,11 @@ class _BuildYourOwnLissajousState extends State<BuildYourOwnLissajous>
         children: [ 
           Positioned(
             bottom: 200,
-            child: DashedLine(y, false, diameter),
+            child: DashedLine(y, false, diameter, this),
           ),
           Positioned(
             right: 16,
-            child: DashedLine(x, true, diameter),
+            child: DashedLine(x, true, diameter, this),
           ),
           Positioned(
             right: 16,
@@ -47,7 +47,7 @@ class _BuildYourOwnLissajousState extends State<BuildYourOwnLissajous>
           Positioned(
             right: 16,
             bottom: 200,
-            child: Orbital(x, y, diameter: diameter,),
+            child: Orbital(x, y, this, diameter: diameter),
           ),
         ]
       ) 
@@ -60,14 +60,14 @@ class _BuildYourOwnLissajousState extends State<BuildYourOwnLissajous>
       width: diameter,
       child: Slider(
         inactiveColor: Colors.grey[800],
-        activeColor: Orbital(axis, 0).generateColor(),
+        activeColor: Orbital(axis, 0, this).generateColor(),
         min: 1.0,
         max: 20,
         value: axis,
         onChanged: (value) => setState(()=> isXAxis ? x=value : y=value),
       )
     ),
-    Orbital(isXAxis ? axis : 0, isXAxis ? 0 : axis, diameter: diameter,),
+    Orbital(isXAxis ? axis : 0, isXAxis ? 0 : axis, this, diameter: diameter,),
       ],
     );
   }

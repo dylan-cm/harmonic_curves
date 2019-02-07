@@ -5,8 +5,9 @@ import 'dart:math' as math;
 class DashedLine extends StatefulWidget {
   final double value, constraint;
   final bool isVertical;
+  final TickerProvider ticker;
 
-  DashedLine(this.value, this.isVertical, this.constraint);
+  DashedLine(this.value, this.isVertical, this.constraint, this.ticker);
 
   _DashedLineState createState() => _DashedLineState();
 }
@@ -26,7 +27,7 @@ class _DashedLineState extends State<DashedLine>
     }
 
     lineController = AnimationController(
-      vsync: this,
+      vsync: widget.ticker,
       duration: Duration(milliseconds: (10000/widget.value).round())
     );
     
