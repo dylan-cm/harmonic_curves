@@ -19,7 +19,8 @@ class _LissajousPathState extends State<LissajousPath> with TickerProviderStateM
   AnimationController dxController, dyController, cycleController;
 
   double x, y, radius;
-  List<Offset> _points = <Offset>[];
+  Map<Offset, bool> _points;
+  int milliseconds = 10000;
 
   @override
   void initState() {
@@ -29,10 +30,14 @@ class _LissajousPathState extends State<LissajousPath> with TickerProviderStateM
     else {x=widget.x; y=widget.y;}
 
     radius = widget.diameter/2;
+    _points = {Offset( 
+      math.sin(0)*radius+radius, 
+      math.cos(0)*radius+radius,
+    ) : true};
 
     dxController = AnimationController(
       vsync: this,
-      duration: Duration(milliseconds: (10000/x).round())
+      duration: Duration(milliseconds: (milliseconds/x).round())
     );
     
     dx = Tween(begin: 0.0, end: 2.0*math.pi).animate(
@@ -44,7 +49,7 @@ class _LissajousPathState extends State<LissajousPath> with TickerProviderStateM
 
     dyController = AnimationController(
       vsync: this,
-      duration: Duration(milliseconds: (10000/y).round())
+      duration: Duration(milliseconds: (milliseconds/y).round())
     );
     
     dy = Tween(begin: 0.0, end: 2.0*math.pi).animate(
@@ -56,7 +61,7 @@ class _LissajousPathState extends State<LissajousPath> with TickerProviderStateM
 
     cycleController = AnimationController(
       vsync: this,
-      duration: Duration(milliseconds: 10000),
+      duration: Duration(milliseconds: milliseconds),
     );
     
     cycle = Tween(begin: 0.0, end: 1.0).animate(
@@ -77,21 +82,22 @@ class _LissajousPathState extends State<LissajousPath> with TickerProviderStateM
   Widget build(BuildContext context) {
     return AnimatedBuilder(
       animation: cycle,
-      builder: (context, child){
-        if (cycleController.status==AnimationStatus.completed||_points.length>1200){
+      builder: (context, child){ 
+        Offset offset = Offset( 
+          ((math.sin(dx.value)*radius+radius)*10).floorToDouble()/10, 
+          ((math.cos(dy.value)*radius+radius)*10).floorToDouble()/10,
+        );
+
+        if (cycleController.status==AnimationStatus.completed||_points.length>=700){
           _points.clear();
           cycleController.reset();
           cycleController.forward();
         }
         
-         _points.add( Offset( 
-          math.sin(dx.value)*radius+radius, 
-          math.cos(dy.value)*radius+radius,
-        ) );
-
+        if(_points[offset]==null){ 
+          _points.addAll({offset : true}); 
+        }
         return 
-        // RepaintBoundary(
-        //   child: 
           CustomPaint(
             painter: PathPainter(
               color: widget.color, 
@@ -99,7 +105,6 @@ class _LissajousPathState extends State<LissajousPath> with TickerProviderStateM
               points: _points,
             ),
             size: Size(radius, radius),
-          // )
         );
       }
     );
@@ -136,7 +141,7 @@ class _LissajousPathState extends State<LissajousPath> with TickerProviderStateM
 }
 
 class PathPainter extends CustomPainter {
-  List<Offset> points;
+  Map<Offset, bool> points;
   Color color;
   double weight;
 
@@ -144,17 +149,12 @@ class PathPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    // print('painting ${points.length}');
     Paint paint = new Paint()
       ..color = color
       ..strokeCap = StrokeCap.round
       ..strokeWidth = weight;
 
-    // for (int i = 0; i < points.length - 1; i++) {
-    //   canvas.drawLine(points[i], points[i + 1], paint);
-    // }
-
-    canvas.drawPoints(PointMode.points, points, paint);
+    canvas.drawPoints(PointMode.points, List.from(points.keys), paint);
   }
 
   @override

@@ -35,6 +35,7 @@ class _HarmonicCirclesState extends State<HarmonicCircles>
     return Center(
       child: Container(
         constraints: BoxConstraints(maxHeight: size.width, maxWidth: size.width),
+        // child: Orbital(4, 2, ticker: this, diameter: 44,),
         child: Column(
           children: rows,
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -42,4 +43,10 @@ class _HarmonicCirclesState extends State<HarmonicCircles>
       ),
     );
   }
+
+  // @override
+  // void dispose() {
+  //   this.
+  //   super.dispose();
+  // }
 }
