@@ -51,8 +51,8 @@ class _DashedLineState extends State<DashedLine>
       ),
       builder: (context, child){
         return Container(
-          height: widget.isVertical? MediaQuery.of(context).size.width : widget.constraint-2,
-          width: widget.isVertical? widget.constraint-2 : MediaQuery.of(context).size.height,
+          height: widget.isVertical? MediaQuery.of(context).size.width : widget.constraint,
+          width: widget.isVertical? widget.constraint : MediaQuery.of(context).size.height,
           alignment: Alignment( 
             widget.isVertical? math.cos(lineAnimation.value) : -1.0,
             widget.isVertical? -1.0 : math.sin(lineAnimation.value),

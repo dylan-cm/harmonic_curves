@@ -27,11 +27,11 @@ class _BuildYourOwnLissajousState extends State<BuildYourOwnLissajous>
       child: Stack(
         children: [ 
           Positioned(
-            bottom: 201,
+            bottom: 200,
             child: DashedLine(y, false, diameter),
           ),
           Positioned(
-            right: 17,
+            right: 16,
             child: DashedLine(x, true, diameter),
           ),
           Positioned(
