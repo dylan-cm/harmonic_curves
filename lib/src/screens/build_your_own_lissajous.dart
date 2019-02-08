@@ -10,54 +10,65 @@ class BuildYourOwnLissajous extends StatefulWidget {
 
 class _BuildYourOwnLissajousState extends State<BuildYourOwnLissajous> 
   with TickerProviderStateMixin{
-  double x, y, diameter;
+  double x, y;
   LissajousPath curve;
 
   @override
   void initState() {
     x=y=1;
-    diameter = 180;
 
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: MediaQuery.of(context).size.width,
-      height: MediaQuery.of(context).size.height,
-      alignment: Alignment(0, 0),
-      child: Stack(
-        children: [ 
-          Positioned(
-            bottom: 200,
-            child: DashedLine(y, false, diameter, this),
-          ),
-          Positioned(
-            right: 16,
-            child: DashedLine(x, true, diameter, this),
-          ),
-          Positioned(
-            right: 16,
-            top: 200,
-            child: _buildSelector(x, true),
-          ),
-          Positioned(
-            left: 16,
-            bottom: 200,
-            child: _buildSelector(y, false),
-          ),
-          Positioned(
-            right: 16,
-            bottom: 200,
-            child: _buildDisplay(),
-          ),
-        ]
-      ) 
+    double side = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
+    double diameter = side*0.4;
+    double padding = side *0.05;
+    double sliderHeight = 30;
+    
+    return Stack(
+      alignment: AlignmentDirectional.center,
+      children: <Widget>[
+        Positioned(
+          left: 0,
+          bottom: (screenHeight - (side+sliderHeight))/2 + padding,
+          child: DashedLine(y, false, diameter, this, side),
+        ),
+        Positioned(
+          right: padding,
+          top: 0,
+          child: DashedLine(x, true, diameter, this, screenHeight),
+        ), 
+        Container(
+          width: side,
+          height: side+sliderHeight,//for slider
+          child: Stack(
+            children: [
+              Positioned(
+                right: padding,
+                top: padding,
+                child: _buildSelector(x, true, diameter),
+              ),
+              Positioned(
+                left: padding,
+                bottom: padding,
+                child: _buildSelector(y, false, diameter),
+              ),
+              PositionedDirectional(
+                end: padding,
+                bottom: padding,
+                child: _buildDisplay(diameter),
+              ),
+            ]
+          ) 
+        )
+      ]
     );
   }
 
-  Widget _buildSelector(double axis, bool isXAxis){
+  Widget _buildSelector(double axis, bool isXAxis, double diameter){
     Orbital orb = Orbital(isXAxis ? axis : 0, isXAxis ? 0 : axis, ticker: this, diameter: diameter,);
     return Column(children: <Widget>[
     Container(
@@ -75,7 +86,7 @@ class _BuildYourOwnLissajousState extends State<BuildYourOwnLissajous>
       ],
     );
   }
-  Widget _buildDisplay(){
+  Widget _buildDisplay(double diameter){
     setState(() {
       curve = LissajousPath(
           x, 

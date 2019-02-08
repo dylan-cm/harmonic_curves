@@ -3,11 +3,11 @@ import 'dart:ui';
 import 'dart:math' as math;
 
 class DashedLine extends StatefulWidget {
-  final double value, constraint;
+  final double value, constraint, length;
   final bool isVertical;
   final TickerProvider ticker;
 
-  DashedLine(this.value, this.isVertical, this.constraint, this.ticker);
+  DashedLine(this.value, this.isVertical, this.constraint, this.ticker, this.length);
 
   _DashedLineState createState() => _DashedLineState();
 }
@@ -21,9 +21,9 @@ class _DashedLineState extends State<DashedLine>
 
   @override
   void initState() {
-    for(var i=0; i<100; i++){
-      if(!widget.isVertical)points.add( Offset(i*10.0, 0) );
-      else points.add( Offset(0, i*10.0) );
+    for(double i=0; i<widget.length; i++){
+      if(!widget.isVertical)points.add( Offset(i*10, 0) );
+      else points.add( Offset(0, i*10) );
     }
 
     lineController = AnimationController(
